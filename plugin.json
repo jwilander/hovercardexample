@@ -1,0 +1,8 @@
+{
+    "id": "hovercardexample",
+    "name": "HovercardExample",
+    "description": "Example hovercard plugin with Skype and LDAP integration",
+    "webapp": {
+        "bundle_path": "/static/hovercardexample_bundle.js"
+    }
+}
