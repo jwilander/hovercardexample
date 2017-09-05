@@ -4,7 +4,11 @@ An example plugin that overrides the profile popover (aka hovercard) of the Matt
 
 Template generated using the [Mattermost Developer Kit tool](https://github.com/mattermost/mattermost-mdk).
 
-# Usage
+## Requirements
+
+Must have [npm](https://www.npmjs.com/) installed.
+
+## Usage
 
 1. Clone this repository
 ```
