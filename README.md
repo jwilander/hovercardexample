@@ -19,4 +19,4 @@ git clone https://github.com/jwilander/hovercardexample.git
 cd hovercardexample
 make build
 ```
-3. Upload the plugin in `dist/hovercardexample.tar.gz` to your Mattermost server
+3. Upload the plugin at `dist/hovercardexample.tar.gz` to your Mattermost server
