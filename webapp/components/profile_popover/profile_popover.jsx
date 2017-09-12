@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
+import {makeStyleFromTheme, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 
 export default class ProfilePopover extends React.PureComponent {
     static propTypes = {
@@ -97,13 +97,20 @@ export default class ProfilePopover extends React.PureComponent {
         let attributesContent;
 
         if (this.state.loading) {
-            attributesContent = <li>{'Loading...'}</li>;
+            attributesContent = 'Loading...';
+        } else if (Object.keys(this.state.attributes).length === 0) {
+            attributesContent = 'LDAP plugin not configured.';
         } else {
             attributesContent = Object.keys(this.state.attributes).map(
                 (key) => {
                     const val = this.state.attributes[key];
                     return (
-                        <li key={key}><strong>{key + ': '}</strong>{val}</li>
+                        <div
+                            key={key}
+                            className='overflow--ellipsis padding-bottom text-nowrap'
+                        >
+                            {key + ': ' + val}
+                        </div>
                     );
                 }
             );
@@ -113,20 +120,25 @@ export default class ProfilePopover extends React.PureComponent {
             <div
                 style={{...style.container, left: this.props.positionLeft, top: this.props.positionTop}}
             >
-                <img src={this.props.src}/>
-                <ul style={style.list}>
-                    <li><strong>{'Username: '}</strong>{user.username}</li>
-                    <li><strong>{'First Name: '}</strong>{user.first_name}</li>
-                    <li><strong>{'Last Name: '}</strong>{user.last_name}</li>
-                    <li>
-                        <a href={'skype:' + user.username}>
-                            {'Call on '}<i className='fa fa-skype'/>
-                        </a>
-                    </li>
-                    <br/>
-                    <li><strong>{'LDAP Attributes'}</strong></li>
+                <h3 style={style.title}><a>{user.username}</a></h3>
+                <div style={style.content}>
+                    <img
+                        style={style.img}
+                        src={this.props.src}
+                    />
+                    <div style={style.fullName}>
+                        {user.first_name + ' ' + user.last_name}
+                    </div>
+                    <hr style={{margin: '0px -15px 10px'}}/>
+                    <div style={{paddingBottom: '7px'}}>
+                        <strong>{'LDAP Attributes'}</strong>
+                    </div>
                     {attributesContent}
-                </ul>
+                    <hr style={{margin: '10px -15px 10px'}}/>
+                    <a href={'skype:' + user.username}>
+                        <i className='fa fa-skype'/>{' Call on Skype'}
+                    </a>
+                </div>
             </div>
         );
     }
@@ -137,14 +149,32 @@ const getStyle = makeStyleFromTheme((theme) => {
         container: {
             backgroundColor: theme.centerChannelBg,
             position: 'absolute',
-            height: '295px',
-            width: '200px',
-            border: '1px solid black',
+            border: '1px solid ' + changeOpacity(theme.centerChannelColor, 0.2),
+            borderRadius: '4px',
             zIndex: 9999 // Bring popover to top
         },
-        list: {
-            listStyleType: 'none',
-            paddingLeft: '0px'
+        title: {
+            padding: '8px 14px',
+            margin: '0',
+            fontSize: '14px',
+            backgroundColor: changeOpacity(theme.centerChannelBg, 0.2),
+            borderBottom: '1px solid #ebebeb',
+            borderRadius: '5px 5px 0 0'
+        },
+        content: {
+            padding: '9px 14px'
+        },
+        img: {
+            verticalAlign: 'middle',
+            maxWidth: '100%',
+            borderRadius: '128px',
+            margin: '0 0 10px'
+        },
+        fullName: {
+            overflow: 'hidden',
+            paddingBottom: '7px',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis'
         }
     };
 });
