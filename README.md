@@ -28,13 +28,18 @@ make build
 1. Used the [mdk tool](https://www.npmjs.com/package/mdk) to generate the template:
 
 ```
-$ mdk init webapp
-Performing setup for webapp plugin...
+$ mdk init plugin
+Plugin Generation
+
 Plugin name: HovercardExample
 Description: Example hovercard plugin with Skype and LDAP integration
-? What components would you like to override with your plugin?
-❯◉ ProfilePopover
-Plugin generated at: ./hovercardexample
+
+Webapp
+
+? Override Components:  ProfilePopover
+Post Types (comma separated, leave blank to skip): 
+
+Plugin generated at: /path/to/plugins/hovercardexample
 ```
 
 2. Modified [`webapp/client/client.js`](https://github.com/jwilander/hovercardexample/blob/master/webapp/client/client.js) to send a request to the LDAP Mattermost plugin. Note that authentication is handled by existing cookies.
