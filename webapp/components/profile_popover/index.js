@@ -2,11 +2,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getUserLdapAttributes} from 'actions/actions.js';
 
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+
 import ProfilePopover from './profile_popover.jsx';
 
 function mapStateToProps(state, ownProps) {
     return {
-        ...ownProps
+        ...ownProps,
+        team: getCurrentTeam(state)
     };
 }
 

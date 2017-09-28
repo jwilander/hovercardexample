@@ -51,7 +51,10 @@ export default class ProfilePopover extends React.PureComponent {
          */
         positionTop: PropTypes.number.isRequired,
 
-        /* Add custom props here */
+        /*
+         * Current team
+         */
+        team: PropTypes.object.isRequired,
 
         /* Define action props here or remove if no actions */
         actions: PropTypes.shape({
@@ -99,20 +102,75 @@ export default class ProfilePopover extends React.PureComponent {
         if (this.state.loading) {
             attributesContent = 'Loading...';
         } else if (Object.keys(this.state.attributes).length === 0) {
-            attributesContent = 'LDAP plugin not configured.';
+            attributesContent = [
+                <hr
+                    key={'ldap' + user.id}
+                    style={{margin: '0px -15px 10px'}}
+                />,
+                <div key={'message' + user.id}>
+                    <a href={'/' + this.props.team.name + '/messages/@' + user.username}>
+                        <i className='fa fa-paper-plane'/>{' Send Message'}
+                    </a>
+                </div>
+            ];
         } else {
-            attributesContent = Object.keys(this.state.attributes).map(
-                (key) => {
-                    const val = this.state.attributes[key];
-                    return (
-                        <div
-                            key={key}
-                            className='overflow--ellipsis padding-bottom text-nowrap'
+            attributesContent = [
+                <hr
+                    key={'ldap' + user.id}
+                    style={{margin: '0px -15px 10px'}}
+                />
+            ];
+
+            const github = this.state.attributes.postOfficeBox;
+            if (github) {
+                attributesContent.push(
+                    <div key={'github' + user.id}>
+                        <a
+                            href={'https://github.com/' + github}
+                            target='_blank'
+                            rel='noopener noreferrer'
                         >
-                            {key + ': ' + val}
-                        </div>
-                    );
-                }
+                            <i className='fa fa-github'/>{' ' + github}
+                        </a>
+                    </div>
+                );
+            }
+
+            const skype = this.state.attributes.st;
+            if (skype) {
+                attributesContent.push(
+                    <div key={'skype' + user.id}>
+                        <a href={'skype:' + skype}>
+                            <i className='fa fa-skype'/>{' Call on Skype'}
+                        </a>
+                    </div>
+                );
+            }
+
+            attributesContent.push(
+                <div key={'message' + user.id}>
+                    <a href={'/' + this.props.team.name + '/messages/@' + user.username}>
+                        <i className='fa fa-paper-plane'/>{' Send Message'}
+                    </a>
+                </div>
+            );
+        }
+
+        let position;
+        if (user.position) {
+            position = (
+                <div style={style.fullName}>
+                    {user.position}
+                </div>
+            );
+        }
+
+        let email;
+        if (user.email) {
+            email = (
+                <div style={style.fullName}>
+                    <a href={'mailto:' + user.email}>{user.email}</a>
+                </div>
             );
         }
 
@@ -120,7 +178,7 @@ export default class ProfilePopover extends React.PureComponent {
             <div
                 style={{...style.container, left: this.props.positionLeft, top: this.props.positionTop}}
             >
-                <h3 style={style.title}><a>{user.username}</a></h3>
+                <h3 style={style.title}><a href={'/' + this.props.team.name + '/messages/@' + user.username}>{user.username}</a></h3>
                 <div style={style.content}>
                     <img
                         style={style.img}
@@ -129,15 +187,9 @@ export default class ProfilePopover extends React.PureComponent {
                     <div style={style.fullName}>
                         {user.first_name + ' ' + user.last_name}
                     </div>
-                    <hr style={{margin: '0px -15px 10px'}}/>
-                    <div style={{paddingBottom: '7px'}}>
-                        <strong>{'LDAP Attributes'}</strong>
-                    </div>
+                    {position}
+                    {email}
                     {attributesContent}
-                    <hr style={{margin: '10px -15px 10px'}}/>
-                    <a href={'skype:' + user.username}>
-                        <i className='fa fa-skype'/>{' Call on Skype'}
-                    </a>
                 </div>
             </div>
         );
