@@ -203,6 +203,7 @@ export default class ProfilePopover extends React.PureComponent {
 const getStyle = makeStyleFromTheme((theme) => {
     return {
         container: {
+            color: theme.centerChannelColor,
             backgroundColor: theme.centerChannelBg,
             position: 'absolute',
             border: '1px solid ' + changeOpacity(theme.centerChannelColor, 0.2),
