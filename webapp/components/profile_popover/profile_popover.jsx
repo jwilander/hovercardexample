@@ -100,7 +100,11 @@ export default class ProfilePopover extends React.PureComponent {
         let attributesContent;
 
         if (this.state.loading) {
-            attributesContent = 'Loading...';
+            attributesContent = (
+                <div style={style.loading}>
+                    {'Loading...'}
+                </div>
+            );
         } else if (Object.keys(this.state.attributes).length === 0) {
             attributesContent = [
                 <hr
@@ -227,6 +231,9 @@ const getStyle = makeStyleFromTheme((theme) => {
             paddingBottom: '7px',
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis'
+        },
+        loading: {
+            height: '100px'
         }
     };
 });
