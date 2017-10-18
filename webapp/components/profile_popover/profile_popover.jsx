@@ -208,7 +208,8 @@ const getStyle = makeStyleFromTheme((theme) => {
             position: 'absolute',
             border: '1px solid ' + changeOpacity(theme.centerChannelColor, 0.2),
             borderRadius: '4px',
-            zIndex: 9999 // Bring popover to top
+            zIndex: 9999, // Bring popover to top,
+            maxWidth: '200px'
         },
         title: {
             padding: '8px 14px',
