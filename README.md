@@ -1,5 +1,7 @@
 # Mattermost Hovercard Example Plugin
 
+**Only works with Mattermost versions before 5.2**
+
 An example plugin that overrides the profile popover (aka hovercard) of the Mattermost webapp.
 
 Template generated using the [Mattermost Developer Kit tool](https://www.npmjs.com/package/mdk).
